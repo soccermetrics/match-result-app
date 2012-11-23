@@ -1,7 +1,8 @@
-Flask-Skeleton
-==============
+Match-Result-App
+================
 
-This is a framework of a Flask application that can be run with gunicorn.  It incorporates the [recommended Flask pattern for larger applications](http://flask.pocoo.org/docs/patterns/packages/) and [wrapper classes for use with gunicorn and Flask](http://damianzaremba.co.uk/2012/08/running-a-wsgi-app-via-gunicorn-from-python/).
+This is a web app that loads data from the FMRD-Light web service and creates pages of
+league results and tables.
 
 Requirements
 ------------
@@ -12,13 +13,12 @@ Requirements
 
 While not required, [autoenv](https://github.com/kennethreitz/autoenv) is really nice to have.
 
-
 Getting Started
 ---------------
 
 (1) Grab latest repo:
 
-    git clone git://github.com/soccermetrics/flask-skeleton.git
+    git clone git://github.com/soccermetrics/match-result-app.git
     
 (2) Set up your virtual environment:
 
@@ -40,17 +40,7 @@ If you're using Foreman, running the app is simple:
     
 If you're not using Foreman, running the app is also simple:
 
-    $ python appname/app.py
-
-    
-Changing appname
-----------------
-
-If you wish to change `appname`, you'll need to do so at the following places:
-
-* both subdirectory names
-* the MyCustomApplication import in `runserver.py`
-* the `import_app()` call within the `load()` routine in `customapplication.py`
+    $ python resultapp/runserver.py
 
 Deployment
 ----------
@@ -61,20 +51,10 @@ To deploy this app in Heroku:
     $ heroku config:add DEBUG=0
     $ git push heroku master
     
-You'll have to tweak the code to deploy it on other platforms.
-
-
-TODO
-----
-
-* Write a script to switch `appname` to whatever name I wish.
-
-
 License
 -------
 
-This framework was created by [Howard Hamilton](http://github.com/howardhamilton). 
-(c) 2012 [Soccermetrics Research, LLC](http://www.soccermetrics.net).
-
-Everything is presented as-is without any warranty. Distributed via MIT license.
+This app was created by [Howard Hamilton](http://github.com/howardhamilton). 
+(c) 2012 [Soccermetrics Research, LLC](http://www.soccermetrics.net). 
+Created under MIT license.
 
