@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Football/soccer match results and league tables">
+    <meta name="author" content="Soccermetrics Research, LLC">
+
+    <!-- Le styles -->
+    <link href="{{ url_for('static', filename='bootstrap-2.2.1/css/bootstrap.css') }}" 
+        rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <link href="{{ url_for('static', filename='bootstrap-2.2.1/css/bootstrap-responsive.css') }} "
+        rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+<!--    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png"> -->
+    
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Project name</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="{{ url_for('show_main') }}">Home</a></li>
+              <li><a data-toggle="modal" href="#about">About</a></li>
+              <li><a data-toggle="modal" href="#contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </div><!--/.navbar-inner -->
+    </div><!--/.navbar .navbar-inverse .navbar-fixed-top -->
+
+    <!-- Modals -->
+    <div id="about" class="modal hide fade" tabindex="-1" role="dialog" 
+        aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="aboutModalLabel">About ResultsPage</h3>
+        </div>
+        <div class="modal-body">
+            <p>One fine body…</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    </div>
+
+    <div id="contact" class="modal hide fade" tabindex="-1" role="dialog" 
+        aria-labelledby="contactModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="contactModalLabel">Contact Us</h3>
+        </div>
+        <div class="modal-body">
+            <p><a href="http://www.soccermetrics.net">Our Website</a></p>
+            <p><a href="mailto:info@soccermetrics.net">Our Email</a></p>
+            <p><a href="http://twitter.com/soccermetrics">Our Twitter</a></p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              {% block sidebar %}
+              {% endblock sidebar %}
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span3-->
+        <div class="span9">
+          <div class="row-fluid">        
+            <div class="span12">
+            {% block main %}
+            {% endblock main %}
+            </div><!--/.span12 -->
+          </div><!--/.row -->
+          <div class="row-fluid">
+            <div class="span12">
+            {% block notes %}
+            {% endblock notes %}
+            </div><!--/.span12 -->
+          </div><!--/.row-->                    
+        </div><!--/.span-->
+      </div><!--/.row-->
+
+      <hr>
+
+      <footer>
+        {% block footer %}
+        <p>&copy; 2012 <a href="http://www.soccermetrics.net">Soccermetrics Research, LLC</a></p>
+        {% endblock footer %}
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="{{ url_for('static', filename='bootstrap-2.2.1/js/bootstrap.min.js') }}"></script>
+  </body>
+</html>

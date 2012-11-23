@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Match Results and Tables
+{% endblock title %}
+
+{% block sidebar %}
+<li class="nav-header">Competitions</li>
+{% for competition in competitions %}
+    <li><a href="{{ url_for('show_competition', compID=competition.ID) }}">
+        {{ competition.name }}</a>
+    </li>
+{% endfor %}
+{% endblock sidebar %}

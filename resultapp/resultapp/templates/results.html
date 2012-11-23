@@ -1,0 +1,20 @@
+{% extends 'competition.html' %}
+
+{% block content %}
+<h2>{{ matchday }}</h2>
+<table class="table">
+    <thead>
+    <tr><th>Date</th><th>Home</th><th></th><th>Away</th></tr>
+    </thead>
+    <tbody>
+    {% for result in results %}
+    <tr>
+    <td>{{ result.date|dateformat }}</td>
+    <td>{{ result.home.team }}</td>
+    <td>{{ result.home.goals }}-{{ result.away.goals }}</td>
+    <td>{{ result.away.team }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends 'home.html' %}
+
+{% block main %}
+<h1>{{ comp.name }}</h1>
+<ul class="nav">
+    <li><h4 class="muted">{{ season.name }} Season</h4></li>
+    <div class="btn-group">
+    <a href="{{ url_for('show_results',compID=comp.ID,seasonID=season.ID) }}" class="btn">Results</a>
+    <a href="{{ url_for('show_tables',compID=comp.ID,seasonID=season.ID) }}" class="btn">Tables</a>
+    </div>
+</ul>
+{% block content %}
+{% endblock content %}
+{% endblock main %}
