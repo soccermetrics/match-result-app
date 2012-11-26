@@ -1,0 +1,155 @@
+{% extends 'competition.html' %}
+
+{% block content %}
+<div class="tabbable">
+    <ul id="table-nav" class="nav nav-pills">
+        <li class="active"><a href="#results" data-toggle="pill">Results</a></li>
+        <li><a href="#regular" data-toggle="pill">Conventional</a></li>
+        <li><a href="#pythag" data-toggle="pill">Pythagorean</a></li>
+        <li><a href="#cann" data-toggle="pill">Cann</a></li>
+    </ul>
+
+    <div class="pill-content">
+        <div class="pill-pane active" id="results">
+            <h2>{{ matchday }}</h2>
+            <table class="table">
+                <thead>
+                <tr><th>Date</th><th>Home</th><th></th><th>Away</th></tr>
+                </thead>
+                <tbody>
+                {% for result in results %}
+                <tr>
+                <td>{{ result.date|dateformat }}</td>
+                <td>{{ result.home.team }}</td>
+                <td>{{ result.home.goals }}-{{ result.away.goals }}</td>
+                <td>{{ result.away.team }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>        
+        </div>
+        <div class="pill-pane" id="regular">
+            <h2>{{ matchday }}</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Club</th><th>W</th><th>D</th><th>L</th>
+                    <th>GF</th><th>GA</th><th>+/-</th><th>Pts</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in table %}
+                <tr>
+                <td>{{ row.team }}</td>
+                <td>{{ row.win }}</td>
+                <td>{{ row.draw }}</td>
+                <td>{{ row.loss }}</td>
+                <td>{{ row.scored }}</td>
+                <td>{{ row.allowed }}</td>
+                <td>{{ (row.scored - row.allowed)|differential }}</td>
+                <td><strong>{{ row.points }}</strong></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="pill-pane" id="pythag">
+            <a href="#pythag-modal" data-toggle="modal"><h6>What is a Pythagorean?</h6></a>
+            <h2>{{ matchday }}</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Club</th>
+                    <th><a href="#" rel="tooltip" title="Expected wins">Exp W</a></th>
+                    <th><a href="#" rel="tooltip" title="Expected draws">Exp D</a></th>
+                    <th><a href="#" rel="tooltip" title="Expected losses">Exp L</a></th>
+                    <th>GF</th><th>GA</th><th>+/-</th>
+                    <th><a href="#" rel="tooltip" title="Total expected points">Exp Pts</a></th>
+                    <th><a href="#" rel="tooltip" title="Actual points">Actual Pts</a></th>
+                    <th><a href="#" rel="tooltip" title="Pythagorean residual">Residual</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in pytable %}
+                <tr>
+                <td>{{ row.team }}</td>
+                <td>{{ row.win }}</td>
+                <td>{{ row.draw }}</td>
+                <td>{{ row.loss }}</td>
+                <td>{{ row.scored }}</td>
+                <td>{{ row.allowed }}</td>
+                <td>{{ (row.scored - row.allowed)|differential }}</td>
+                <td><strong>{{ row.points }}</strong></td>
+                <td>{{ table|teampts(row.team) }}</td>
+                <td><strong>{{ (table|teampts(row.team) - row.points)|differential }}</strong></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div id="pythag-modal" class="modal hide fade" tabindex="-1" role="dialog" 
+                aria-labelledby="aboutModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="aboutModalLabel">About the Pythagorean</h3>
+                </div>
+                <div class="modal-body">
+                    <p>The soccer Pythagorean estimates the number of points a team is expected to win
+                    based on the number of goals it scores and concedes. The Pythagorean is accurate to
+                    within 3-4 points and is used to identify teams that are significantly under- or
+                    over-achieving over a season.
+                    </p>
+                    <p>
+                    The soccer Pythagorean was developed by Soccermetrics Research. You can find more
+                    information on <a href="http://www.soccermetrics.net/category/soccer-pythagorean-theory">
+                    our company site</a>.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+        <div class="pill-pane" id="cann">
+            <a href="#cann-modal" data-toggle="modal"><h6>What is a Cann table?</h6></a>
+            <h2>{{ matchday }}</h2>
+            <table class="table table-condensed">
+            <thead><tr><th>Points</th><th>Clubs</th></tr></thead>
+            <tbody>
+                {% for leaguept in range(table|maxpts,table|minpts-1,-1) %}
+                    {% if table|checkteampt(leaguept) %}
+                    <tr>
+                        <td>{{ leaguept }}</td>
+                        <td>{{ table|cannmembers(leaguept)|join(', ') }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td></td><td></td></tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+            </table>
+            <div id="cann-modal" class="modal hide fade" tabindex="-1" role="dialog" 
+                aria-labelledby="aboutModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="aboutModalLabel">About the Cann Table</h3>
+                </div>
+                <div class="modal-body">
+                    <p>
+                    The Cann table is an alternative look at league tables that illustrates the 
+                    point gaps between teams. Teams are displayed in their order in the league table
+                    with their goal differences between parentheses.
+                    </p>
+                    <p>
+                    The Cann table was first used for the English Premier League and named the Visual
+                    League Table.  It was renamed in memory of its creator Jenny Cann after her passing
+                    in 2003.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
