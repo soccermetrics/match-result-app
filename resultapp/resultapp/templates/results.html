@@ -1,4 +1,15 @@
 {% extends 'competition.html' %}
+{% block navbar %}
+{{ super() }}
+<form class="form-inline" action="{{ url_for('show_results',compID=comp.ID,seasonID=season.ID) }}" method=post>
+    <select id="comp-matchday" name="roundID">
+        {% for round in rounds %}
+            <option value="{{ round.ID }}">{{ round.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="select" class="btn">Select matchday</button>
+</form>
+{% endblock navbar %}
 
 {% block content %}
 <h2>{{ matchday }}</h2>
