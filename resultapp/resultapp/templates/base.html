@@ -46,7 +46,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Project name</a>
+          <a class="brand" href="{{ url_for('show_main') }}">ResultsPage</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="{{ url_for('show_main') }}">Home</a></li>
@@ -66,7 +66,15 @@
             <h3 id="aboutModalLabel">About ResultsPage</h3>
         </div>
         <div class="modal-body">
-            <p>One fine body…</p>
+            <p>
+            <strong>ResultsPage</strong> is a fun little app that shows off some of what
+            Soccermetrics software can do. We access data from our web APIs to display results
+            and tables for various types of football competitions all over the world.  You can
+            even click on the team and check out how their goals and points change over a season.
+            </p>
+            <p>
+            We hope you enjoy <strong>ResultsPage</strong> as much as we did creating it.
+            </p>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
