@@ -1,14 +1,25 @@
 {% extends 'home.html' %}
 
 {% block main %}
+{% block navbar %}
 <h1>{{ comp.name }}</h1>
-<ul class="nav">
+<h4 class="muted">{{ season.name }} Season</h4>
+{# <ul class="nav">
     <li><h4 class="muted">{{ season.name }} Season</h4></li>
     <div class="btn-group">
     <a href="{{ url_for('show_results',compID=comp.ID,seasonID=season.ID) }}" class="btn">Results</a>
     <a href="{{ url_for('show_tables',compID=comp.ID,seasonID=season.ID) }}" class="btn">Tables</a>
-    </div>
-</ul>
+    </div>    
+</ul> #}
+<form class="form-inline" action="{{ url_for('show_results',compID=comp.ID,seasonID=season.ID) }}" method=post>
+    <select id="comp-matchday" name="roundID">
+        {% for round in rounds %}
+            <option value="{{ round.ID }}">{{ round.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="select" class="btn">Select matchday</button>
+</form>
+{% endblock navbar %}
 {% block content %}
 {% endblock content %}
 {% endblock main %}
