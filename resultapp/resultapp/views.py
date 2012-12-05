@@ -208,9 +208,20 @@ def show_results(compID,seasonID):
     elif respCode == 404:
         return render_template('404.html')
     elif respCode == 500:
+        return render_template('500.html')
+        
+    # get league series table
+    seriesTableDict = []
+    uri = '/competitions/%d/seasons/%d/tables/series' % (compID,seasonID)
+    resp = result.request_get(uri,args={'round': roundNum})
+    if int(resp['headers']['status']) == 200:
+        seriesTableDict = literal_eval(resp['body'])
+    elif respCode == 404:
+        return render_template('404.html')
+    elif respCode == 500:
         return render_template('500.html')    
     
     return render_template('weekend.html',competitions=compDict,
         matchday=matchdayDesc,comp=comp,season=seasonDict,
         rounds=roundDict,results=resultDict,table=tableDict,
-        pytable=pythagTableDict)
+        pytable=pythagTableDict,srtable=seriesTableDict)

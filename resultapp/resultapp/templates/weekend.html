@@ -7,6 +7,7 @@
         <li><a href="#regular" data-toggle="pill">Conventional</a></li>
         <li><a href="#pythag" data-toggle="pill">Pythagorean</a></li>
         <li><a href="#cann" data-toggle="pill">Cann</a></li>
+        <li><a href="#series" data-toggle="pill">Series</a></li>
     </ul>
 
     <div class="pill-content">
@@ -27,13 +28,13 @@
                 {% endfor %}
                 </tbody>
             </table>        
-        </div>
+        </div><!-- results -->
         <div class="pill-pane" id="regular">
             <h2>{{ matchday }}</h2>
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Club</th><th>W</th><th>D</th><th>L</th>
+                    <th>Club</th><th>P</th><th>W</th><th>D</th><th>L</th>
                     <th>GF</th><th>GA</th><th>+/-</th><th>Pts</th>
                 </tr>
                 </thead>
@@ -41,6 +42,7 @@
                 {% for row in table %}
                 <tr>
                 <td>{{ row.team }}</td>
+                <td>{{ row.match }}</td>
                 <td>{{ row.win }}</td>
                 <td>{{ row.draw }}</td>
                 <td>{{ row.loss }}</td>
@@ -52,7 +54,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-        </div>
+        </div><!-- regular -->
         <div class="pill-pane" id="pythag">
             <a href="#pythag-modal" data-toggle="modal"><h6>What is a Pythagorean?</h6></a>
             <h2>{{ matchday }}</h2>
@@ -60,6 +62,7 @@
                 <thead>
                 <tr>
                     <th>Club</th>
+                    <th><a href="#" rel="tooltip" title="Matches played">Matches</a></th>
                     <th><a href="#" rel="tooltip" title="Expected wins">Exp W</a></th>
                     <th><a href="#" rel="tooltip" title="Expected draws">Exp D</a></th>
                     <th><a href="#" rel="tooltip" title="Expected losses">Exp L</a></th>
@@ -73,6 +76,7 @@
                 {% for row in pytable %}
                 <tr>
                 <td>{{ row.team }}</td>
+                <td>{{ row.match }}</td>
                 <td>{{ row.win }}</td>
                 <td>{{ row.draw }}</td>
                 <td>{{ row.loss }}</td>
@@ -108,7 +112,7 @@
                     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
                 </div>
             </div>
-        </div>
+        </div><!-- pythag -->
         <div class="pill-pane" id="cann">
             <a href="#cann-modal" data-toggle="modal"><h6>What is a Cann table?</h6></a>
             <h2>{{ matchday }}</h2>
@@ -149,7 +153,56 @@
                     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
                 </div>
             </div>
-        </div>
+        </div><!-- cann -->
+        <div class="pill-pane" id="series">
+            <a href="#series-modal" data-toggle="modal"><h6>What is a Series Table?</h6></a>
+            <h2>{{ matchday }}</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Club</th>
+                    <th><a href="#" rel="tooltip" title="Number of series">Series</a></th>
+                    <th><a href="#" rel="tooltip" title="Aggregate wins">W</a></th>
+                    <th><a href="#" rel="tooltip" title="Aggregate draws">D</a></th>
+                    <th><a href="#" rel="tooltip" title="Aggregate losses">L</a></th>
+                    <th>GF</th><th>GA</th><th>+/-</th>
+                    <th><a href="#" rel="tooltip" title="Points (Win=2pts, Draw=1pt)">Points</a></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in srtable %}
+                <tr>
+                <td>{{ row.team }}</td>
+                <td>{{ row.match }}</td>
+                <td>{{ row.win }}</td>
+                <td>{{ row.draw }}</td>
+                <td>{{ row.loss }}</td>
+                <td>{{ row.scored }}</td>
+                <td>{{ row.allowed }}</td>
+                <td>{{ (row.scored - row.allowed)|differential }}</td>
+                <td><strong>{{ row.points }}</strong></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div id="series-modal" class="modal hide fade" tabindex="-1" role="dialog" 
+                aria-labelledby="aboutModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="aboutModalLabel">About the Series Table</h3>
+                </div>
+                <div class="modal-body">
+                    <p>
+                    The Series table views the league table as a collection of multi-game series
+                    between the two teams.  Wins, draws, and losses are based on aggregate 
+                    goals in the season series. Two points are given for a series win and one point
+                    for a series draw.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+        </div><!-- series -->
     </div>
 </div>
 {% endblock content %}
