@@ -1,16 +1,27 @@
 {% extends 'competition.html' %}
-{% block navbar %}
-{{ super() }}
-<form class="form-inline" action="{{ url_for('show_results',compID=comp.ID,seasonID=season.ID) }}" method=post>
-    <select id="comp-matchday" name="roundID">
-        {% for round in rounds %}
-            <option value="{{ round.ID }}">{{ round.name }}</option>
-        {% endfor %}
-    </select>
-    <button type="select" class="btn">Select matchday</button>
-</form>
-{% endblock navbar %}
+{% block title %}
+{{ super() }}: Results (Round {{ roundnum }})
+{% endblock title %}
 
+{% block minibar %}
+<ul id="table-nav" class="nav nav-pills">
+    <li class="active">
+      <a href="{{ url_for('show_results',compID=comp.ID,seasonID=season.ID) }}">Results</a>
+    </li>
+    <li>
+      <a href="{{ url_for('show_table',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Conventional</a>
+    </li>
+    <li>
+      <a href="{{ url_for('show_pythagorean',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Pythagorean</a>
+    </li>
+    <li>
+      <a href="{{ url_for('show_cann',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Cann</a>
+    </li>
+    <li class="disabled">
+      <a href="#">Series</a>
+    </li>
+</ul>
+{% endblock minibar %}
 {% block content %}
 <h2>{{ matchday }}</h2>
 <table class="table">
