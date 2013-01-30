@@ -8,7 +8,7 @@
     <meta name="author" content="Soccermetrics Research, LLC">
 
     <!-- Le styles -->
-    <link href="{{ url_for('static', filename='bootstrap-2.2.1/css/bootstrap.css') }}" 
+    <link href="{{ url_for('static', filename='bootstrap-2.2.1/css/bootstrap.css') }}"
         rel="stylesheet">
     <style type="text/css">
       body {
@@ -22,18 +22,20 @@
     <link href="{{ url_for('static', filename='bootstrap-2.2.1/css/bootstrap-responsive.css') }} "
         rel="stylesheet">
 
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
     <!-- Fav and touch icons -->
 <!--    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png"> -->
-    
+
+    <!-- Share This icons -->
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">
+      stLight.options({publisher: "03979233-6016-4d85-8f98-b4572dd987b0", doNotHash: false, doNotCopy: true, hashAddressBar: true});
+    </script>
+
   </head>
 
   <body>
@@ -59,7 +61,7 @@
     </div><!--/.navbar .navbar-inverse .navbar-fixed-top -->
 
     <!-- Modals -->
-    <div id="about" class="modal hide fade" tabindex="-1" role="dialog" 
+    <div id="about" class="modal hide fade" tabindex="-1" role="dialog"
         aria-labelledby="aboutModalLabel" aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -69,8 +71,9 @@
             <p>
             <strong>ResultsPage</strong> is a fun little app that shows off some of what
             Soccermetrics software can do. We access data from our web APIs to display results
-            and tables for various types of football competitions all over the world.  You can
-            even click on the team and check out how their goals and points change over a season.
+            and tables for various types of football competitions all over the world.  In future
+            releases, you'll be able to click on the team and check out how their goals and points
+            change over a season.
             </p>
             <p>
             We hope you enjoy <strong>ResultsPage</strong> as much as we did creating it.
@@ -81,16 +84,16 @@
         </div>
     </div>
 
-    <div id="contact" class="modal hide fade" tabindex="-1" role="dialog" 
+    <div id="contact" class="modal hide fade" tabindex="-1" role="dialog"
         aria-labelledby="contactModalLabel" aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="contactModalLabel">Contact Us</h3>
         </div>
         <div class="modal-body">
-            <p><a href="http://www.soccermetrics.net">Our Website</a></p>
-            <p><a href="mailto:info@soccermetrics.net">Our Email</a></p>
-            <p><a href="http://twitter.com/soccermetrics">Our Twitter</a></p>
+            <p><a href="http://www.soccermetrics.net" target="_blank"><i class="icon-globe"></i> Our Website</a></p>
+            <p><a href="mailto:info@soccermetrics.net"><i class="icon-envelope"></i> Our Email</a></p>
+            <p><a href="http://twitter.com/soccermetrics" target="_blank"><i class="icon-bullhorn"></i> Our Twitter</a></p>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -109,7 +112,7 @@
           </div><!--/.well -->
         </div><!--/span3-->
         <div class="span9">
-          <div class="row-fluid">        
+          <div class="row-fluid">
             <div class="span12">
             {% block main %}
             {% endblock main %}
@@ -120,7 +123,7 @@
             {% block notes %}
             {% endblock notes %}
             </div><!--/.span12 -->
-          </div><!--/.row-->                    
+          </div><!--/.row-->
         </div><!--/.span-->
       </div><!--/.row-->
 
