@@ -1,0 +1,50 @@
+{% extends 'competition.html' %}
+{% block title %}
+{{ super() }}: Table (Round {{ roundnum }})
+{% endblock title %}
+
+{% block minibar %}
+<ul id="table-nav" class="nav nav-pills">
+    <li>
+      <a href="{{ url_for('show_results',compID=comp.ID,seasonID=season.ID) }}">Results</a>
+    </li>
+    <li class="active">
+      <a href="{{ url_for('show_table',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Conventional</a>
+    </li>
+    <li>
+      <a href="{{ url_for('show_pythagorean',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Pythagorean</a>
+    </li>
+    <li>
+      <a href="{{ url_for('show_cann',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Cann</a>
+    </li>
+    <li class="disabled">
+      <a href="#">Series</a>
+    </li>
+</ul>
+{% endblock minibar %}
+{% block content %}
+<h2>{{ matchday }}</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Club</th><th>P</th><th>W</th><th>D</th><th>L</th>
+        <th>GF</th><th>GA</th><th>+/-</th><th>Pts</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in table %}
+    <tr>
+    <td>{{ row.team }}</td>
+    <td>{{ row.match }}</td>
+    <td>{{ row.win }}</td>
+    <td>{{ row.draw }}</td>
+    <td>{{ row.loss }}</td>
+    <td>{{ row.scored }}</td>
+    <td>{{ row.allowed }}</td>
+    <td>{{ (row.scored - row.allowed)|differential }}</td>
+    <td><strong>{{ row.points }}</strong></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

@@ -1,0 +1,71 @@
+{% extends 'competition.html' %}
+
+{% block minibar %}
+<ul id="table-nav" class="nav nav-pills">
+    <li>
+      <a href="{{ url_for('show_results',compID=comp.ID,seasonID=season.ID) }}">Results</a>
+    </li>
+    <li>
+      <a href="{{ url_for('show_table',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Conventional</a>
+    </li>
+    <li>
+      <a href="{{ url_for('show_pythagorean',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Pythagorean</a>
+    </li>
+    <li>
+      <a href="{{ url_for('show_cann',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Cann</a>
+    </li>
+    <li class="disabled">
+      <a href="#">Series</a>
+    </li>
+</ul>
+{% endblock minibar %}
+{% block seriestable %}
+<a href="#series-modal" data-toggle="modal"><h6>What is a Series Table?</h6></a>
+<h2>{{ matchday }}</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Club</th>
+        <th><a href="#" rel="tooltip" title="Number of series">Series</a></th>
+        <th><a href="#" rel="tooltip" title="Aggregate wins">W</a></th>
+        <th><a href="#" rel="tooltip" title="Aggregate draws">D</a></th>
+        <th><a href="#" rel="tooltip" title="Aggregate losses">L</a></th>
+        <th>GF</th><th>GA</th><th>+/-</th>
+        <th><a href="#" rel="tooltip" title="Points (Win=2pts, Draw=1pt)">Points</a></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in srtable %}
+    <tr>
+    <td>{{ row.team }}</td>
+    <td>{{ row.match }}</td>
+    <td>{{ row.win }}</td>
+    <td>{{ row.draw }}</td>
+    <td>{{ row.loss }}</td>
+    <td>{{ row.scored }}</td>
+    <td>{{ row.allowed }}</td>
+    <td>{{ (row.scored - row.allowed)|differential }}</td>
+    <td><strong>{{ row.points }}</strong></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div id="series-modal" class="modal hide fade" tabindex="-1" role="dialog"
+    aria-labelledby="aboutModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="aboutModalLabel">About the Series Table</h3>
+    </div>
+    <div class="modal-body">
+        <p>
+        The Series table views the league table as a collection of multi-game series
+        between the two teams.  Wins, draws, and losses are based on aggregate
+        goals in the season series. Two points are given for a series win and one point
+        for a series draw.
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>
+{% endblock seriestable %}

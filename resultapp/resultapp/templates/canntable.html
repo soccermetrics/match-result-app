@@ -1,0 +1,65 @@
+{% extends 'competition.html' %}
+{% block title %}
+{{ super() }}: Cann Table (Round {{ roundnum }})
+{% endblock title %}
+
+{% block minibar %}
+<ul id="table-nav" class="nav nav-pills">
+    <li>
+      <a href="{{ url_for('show_results',compID=comp.ID,seasonID=season.ID) }}">Results</a>
+    </li>
+    <li>
+      <a href="{{ url_for('show_table',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Conventional</a>
+    </li>
+    <li>
+      <a href="{{ url_for('show_pythagorean',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Pythagorean</a>
+    </li>
+    <li class="active">
+      <a href="{{ url_for('show_cann',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Cann</a>
+    </li>
+    <li class="disabled">
+      <a href="#">Series</a>
+    </li>
+</ul>
+{% endblock minibar %}
+{% block content %}
+<a href="#cann-modal" data-toggle="modal"><h6>What is a Cann table?</h6></a>
+<h2>{{ matchday }}</h2>
+<table class="table table-condensed">
+<thead><tr><th>Points</th><th>Clubs</th></tr></thead>
+<tbody>
+    {% for leaguept in range(table|maxpts,table|minpts-1,-1) %}
+        {% if table|checkteampt(leaguept) %}
+        <tr>
+            <td>{{ leaguept }}</td>
+            <td>{{ table|cannmembers(leaguept)|join(', ') }}</td>
+        </tr>
+        {% else %}
+        <tr><td></td><td></td></tr>
+        {% endif %}
+    {% endfor %}
+</tbody>
+</table>
+<div id="cann-modal" class="modal hide fade" tabindex="-1" role="dialog"
+    aria-labelledby="aboutModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="aboutModalLabel">About the Cann Table</h3>
+    </div>
+    <div class="modal-body">
+        <p>
+        The Cann table is an alternative look at league tables that illustrates the
+        point gaps between teams. Teams are displayed in their order in the league table
+        with their goal differences between parentheses.
+        </p>
+        <p>
+        The Cann table was first used for the English Premier League and named the Visual
+        League Table.  It was renamed in memory of its creator Jenny Cann after her passing
+        in 2003.
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>
+{% endblock content %}

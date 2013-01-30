@@ -1,0 +1,82 @@
+{% extends 'competition.html' %}
+{% block title %}
+{{ super() }}: Pythagorean Table (Round {{ roundnum }})
+{% endblock title %}
+
+{% block minibar %}
+<ul id="table-nav" class="nav nav-pills">
+    <li>
+      <a href="{{ url_for('show_results',compID=comp.ID,seasonID=season.ID) }}">Results</a>
+    </li>
+    <li>
+      <a href="{{ url_for('show_table',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Conventional</a>
+    </li>
+    <li class="active">
+      <a href="{{ url_for('show_pythagorean',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Pythagorean</a>
+    </li>
+    <li>
+      <a href="{{ url_for('show_cann',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Cann</a>
+    </li>
+    <li class="disabled">
+      <a href="#">Series</a>
+    </li>
+</ul>
+{% endblock minibar %}
+{% block content %}
+<a href="#pythag-modal" data-toggle="modal"><h6>What is a Pythagorean?</h6></a>
+<h2>{{ matchday }}</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Club</th>
+        <th><a href="#" rel="tooltip" title="Matches played">Matches</a></th>
+        <th><a href="#" rel="tooltip" title="Expected wins">Exp W</a></th>
+        <th><a href="#" rel="tooltip" title="Expected draws">Exp D</a></th>
+        <th><a href="#" rel="tooltip" title="Expected losses">Exp L</a></th>
+        <th>GF</th><th>GA</th><th>+/-</th>
+        <th><a href="#" rel="tooltip" title="Total expected points">Exp Pts</a></th>
+        <th><a href="#" rel="tooltip" title="Actual points">Actual Pts</a></th>
+        <th><a href="#" rel="tooltip" title="Pythagorean residual">Residual</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in pytable %}
+    <tr>
+    <td>{{ row.team }}</td>
+    <td>{{ row.match }}</td>
+    <td>{{ row.win }}</td>
+    <td>{{ row.draw }}</td>
+    <td>{{ row.loss }}</td>
+    <td>{{ row.scored }}</td>
+    <td>{{ row.allowed }}</td>
+    <td>{{ (row.scored - row.allowed)|differential }}</td>
+    <td><strong>{{ row.points }}</strong></td>
+    <td>{{ table|teampts(row.team) }}</td>
+    <td><strong>{{ (table|teampts(row.team) - row.points)|differential }}</strong></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div id="pythag-modal" class="modal hide fade" tabindex="-1" role="dialog"
+    aria-labelledby="aboutModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="aboutModalLabel">About the Pythagorean</h3>
+    </div>
+    <div class="modal-body">
+        <p>The soccer Pythagorean estimates the number of points a team is expected to win
+        based on the number of goals it scores and concedes. The Pythagorean is accurate to
+        within 3-4 points and is used to identify teams that are significantly under- or
+        over-achieving over a season.
+        </p>
+        <p>
+        The soccer Pythagorean was developed by Soccermetrics Research. You can find more
+        information on <a href="http://www.soccermetrics.net/category/soccer-pythagorean-theory">
+        our company site</a>.
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>
+{% endblock content %}
