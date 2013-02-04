@@ -5,10 +5,71 @@ ResultsPage: Football results and tables the Soccermetrics way.
 {% endblock title %}
 
 {% block sidebar %}
-<li class="nav-header">Competitions</li>
-{% for competition in competitions %}
-    <li><a href="{{ url_for('show_competition', compID=competition.ID) }}">
-        {{ competition.name }}</a>
-    </li>
-{% endfor %}
+<li class="nav-header">Domestic Competitions</li>
+{# create confederation accordion section #}
+<div id="side-accordion" class="accordion">
+  {% for confed in confederations %}
+     <div class="accordion-group">
+       <div class="accordion-heading">
+         <a class="accordion-toggle" data-toggle="collapse" data-parent="#side-accordion" href="#collapse-{{confed}}">
+           {{confed}}
+         </a>
+       </div>
+       <div id="collapse-{{confed}}" class="accordion-body collapse">
+         <div class="accordion-inner">
+
+           {# country accordion section #}
+           <div id="country-accordion" class="accordion">
+             {% for datum in compdata %}
+                {% if datum.confed == confed %}
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="country-accordion"
+                       href="#collapse-{{datum.countryID}}">
+                      {{datum.country}}
+                    </a>
+                  </div>
+                  <div id="collapse-{{datum.countryID}}" class="accordion-body collapse">
+                    <div class="accordion-inner">
+
+                       {# competition accordion section #}
+                       <div id="comp-accordion" class="accordion">
+                         {% for competition in datum.competition %}
+                         <div class="accordion-group">
+                           <div class="accordion-heading">
+                             <a class="accordion-toggle" data-toggle="collapse" data-parent="comp-accordion"
+                                href="#collapse-comp{{competition.ID}}">
+                                {{competition.name|decode}}
+                             </a>
+                           </div>
+                           <div id="collapse-comp{{competition.ID}}" class="accordion-body collapse">
+                             <div class="accordion-inner">
+                               {% for season in competition.seasons %}
+                               <li>
+                                 <a href="{{ url_for('show_competition', compID=competition.ID, seasonID=season.ID) }}">
+                                   {{ season.year }}
+                                 </a>
+                               </li>
+                               {% endfor %}
+                             </div>
+                           </div>
+                         </div>
+                         {% endfor %}
+                       </div>
+                       {# end competition accordion section #}
+
+                   </div>
+                  </div>
+                </div>
+                {% endif %}
+             {% endfor %}
+           </div>
+           {# end country accordion section #}
+
+         </div>
+       </div>
+     </div>
+  {% endfor %}
+</div>
+{# end confederation accordion section #}
 {% endblock sidebar %}
