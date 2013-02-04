@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 #
 #   Implementation of views
 #
@@ -55,30 +57,27 @@ def internal_error(error=None):
 # Context Processor
 #
 
-def setCompetitionContext(compID=None):
+def setCompetitionContext(compID=None,seasonID=None):
     if not compID:
         return dict()
 
     # get competition list
-    resp = result.request_get('/competitions')
+    resp = result.request_get('/competitions/domestic')
     if int(resp['headers']['status']) == 200:
         compDict = literal_eval(resp['body'])
+        confedList = sorted(list(set([x['confed'] for x in compDict])))
 
     # get competition name
     uri = '/competitions/%d' % compID
     resp = result.request_get(uri)
     if int(resp['headers']['status']) == 200:
-        comp = literal_eval(resp['body'])
-        comp['ID'] = compID
+        comp = literal_eval(resp['body'])[0]
 
     # get current season
-    resp = result.request_get('/seasons')
+    uri = '/seasons/%d' % seasonID
+    resp = result.request_get(uri)
     if int(resp['headers']['status']) == 200:
-        seasonDict = literal_eval(resp['body'])[0]
-    elif respCode == 404:
-        return render_template('404.html')
-    elif respCode == 500:
-        return render_template('500.html')
+        seasonDict = literal_eval(resp['body'])
 
     # get all matchdays for competition/season
     resp = result.request_get('/rounds',args={'compID': compID,
@@ -87,12 +86,16 @@ def setCompetitionContext(compID=None):
         roundDict = literal_eval(resp['body'])
         roundDict.reverse()
 
-    return dict(competitions=compDict,comp=comp,season=seasonDict,
-                rounds=roundDict)
+    return dict(confederations=confedList,compdata=sorted(compDict,key=lambda x: x['country']),
+                comp=comp,season=seasonDict,rounds=roundDict)
 
 #
 # Custom Filters
 #
+
+@app.template_filter('decode')
+def decodetext(value):
+    return value.decode('utf-8')
 
 @app.template_filter('dateformat')
 def dateformat(value,format='%d %B %Y'):
@@ -127,7 +130,7 @@ def checkteampt(mList,pt):
 
 @app.template_filter('cannmembers')
 def cannmembers(mList,pt):
-    return ["%s (%s)" % (rec['team'],differential(rec['scored']-rec['allowed']))
+    return ["%s (%s)" % (rec['team'].decode('utf-8'),differential(rec['scored']-rec['allowed']))
             for rec in mList if rec['points']==pt]
 
 #
@@ -138,24 +141,25 @@ def cannmembers(mList,pt):
 def show_main():
     """Application root."""
 
-    resp = result.request_get('/competitions')
+    resp = result.request_get('/competitions/domestic')
     if int(resp['headers']['status']) == 200:
         compDict = literal_eval(resp['body'])
-    return render_template('home.html',competitions=compDict)
+        confedList = sorted(list(set([x['confed'] for x in compDict])))
+    return render_template('home.html',confederations=confedList,compdata=sorted(compDict,key=lambda x: x['country']))
 
-@app.route('/competitions/<int:compID>')
-def show_competition(compID):
+@app.route('/competitions/<int:compID>/seasons/<int:seasonID>')
+def show_competition(compID,seasonID):
     """Competition main page."""
 
-    context = setCompetitionContext(compID)
+    context = setCompetitionContext(compID,seasonID)
 
     return render_template('competition.html',**context)
 
-@app.route('/competitions/<int:compID>/seasons/<int:seasonID>',methods=['GET','POST'])
+@app.route('/competitions/<int:compID>/seasons/<int:seasonID>/results',methods=['GET','POST'])
 def show_results(compID,seasonID):
     """League match results page."""
 
-    context = setCompetitionContext(compID)
+    context = setCompetitionContext(compID,seasonID)
 
     if request.method == 'POST':
         app.jinja_env.globals['matchdayID'] = int(request.form['roundID'])
@@ -189,7 +193,7 @@ def show_results(compID,seasonID):
 def show_table(compID,seasonID,roundNum):
     """Conventional league table page."""
 
-    context = setCompetitionContext(compID)
+    context = setCompetitionContext(compID,seasonID)
 
     # get current league round
     uri = '/rounds?round=%d' % int(roundNum)
@@ -220,7 +224,7 @@ def show_table(compID,seasonID,roundNum):
 def show_pythagorean(compID,seasonID,roundNum):
     """Pythagorean league table page."""
 
-    context = setCompetitionContext(compID)
+    context = setCompetitionContext(compID,seasonID)
 
     # get current league round
     uri = '/rounds?round=%d' % int(roundNum)
@@ -263,7 +267,7 @@ def show_pythagorean(compID,seasonID,roundNum):
 def show_cann(compID,seasonID,roundNum):
     """Cann table page."""
 
-    context = setCompetitionContext(compID)
+    context = setCompetitionContext(compID,seasonID)
 
     # get current league round
     uri = '/rounds?round=%d' % int(roundNum)
@@ -294,7 +298,7 @@ def show_cann(compID,seasonID,roundNum):
 def show_series(compID,seasonID,roundNum):
     """Series table page."""
 
-    context = setCompetitionContext(compID)
+    context = setCompetitionContext(compID,seasonID)
 
     # get current league round
     uri = '/rounds?round=%d' % int(roundNum)
