@@ -42,7 +42,7 @@
     <tbody>
     {% for row in pytable %}
     <tr>
-    <td>{{ row.team }}</td>
+    <td>{{ row.team|decode }}</td>
     <td>{{ row.match }}</td>
     <td>{{ row.win }}</td>
     <td>{{ row.draw }}</td>

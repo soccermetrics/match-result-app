@@ -32,9 +32,9 @@
     {% for result in results %}
     <tr>
     <td>{{ result.date|dateformat }}</td>
-    <td>{{ result.home.team }}</td>
+    <td>{{ result.home.team|decode }}</td>
     <td>{{ result.home.goals }}-{{ result.away.goals }}</td>
-    <td>{{ result.away.team }}</td>
+    <td>{{ result.away.team|decode }}</td>
     </tr>
     {% endfor %}
     </tbody>
