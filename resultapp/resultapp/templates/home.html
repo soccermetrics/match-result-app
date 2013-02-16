@@ -46,7 +46,7 @@ ResultsPage: Football results and tables the Soccermetrics way.
                              <div class="accordion-inner">
                                {% for season in competition.seasons %}
                                <li>
-                                 <a href="{{ url_for('show_competition', compID=competition.ID, seasonID=season.ID) }}">
+                                 <a href="{{ url_for('show_competition_recent', compID=competition.ID, seasonID=season.ID) }}">
                                    {{ season.year }}
                                  </a>
                                </li>

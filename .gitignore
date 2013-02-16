@@ -2,6 +2,7 @@
 *.tar.gz
 *.pyc
 *.*~
+Procfile.dev
 .cache/
 build/
 venv/
