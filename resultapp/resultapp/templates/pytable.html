@@ -6,7 +6,7 @@
 {% block minibar %}
 <ul id="table-nav" class="nav nav-pills">
     <li>
-      <a href="{{ url_for('show_results',compID=comp.ID,seasonID=season.ID) }}">Results</a>
+      <a href="{{ url_for('show_results',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Results</a>
     </li>
     <li>
       <a href="{{ url_for('show_table',compID=comp.ID,seasonID=season.ID,roundNum=roundnum) }}">Conventional</a>
