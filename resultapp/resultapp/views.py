@@ -196,8 +196,8 @@ def show_competition_recent(compID,seasonID):
 
     return render_template('results.html',results=resultDict,**context)
 
-@app.route('/competitions/<int:compID>/seasons/<int:seasonID>/round/<int:roundNum>/results',methods=['GET'])
-@app.route('/competitions/<int:compID>/seasons/<int:seasonID>/results',methods=['POST'])
+@app.route('/competitions/<int:compID>/seasons/<int:seasonID>/results',methods=['POST',])
+@app.route('/competitions/<int:compID>/seasons/<int:seasonID>/round/<int:roundNum>/results',methods=['GET',])
 def show_results(compID,seasonID,roundNum=None):
     """League match results page."""
 
